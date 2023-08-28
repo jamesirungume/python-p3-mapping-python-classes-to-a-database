@@ -18,6 +18,7 @@ class Song:
         """
 
         CURSOR.execute(sql)
+        CONN.commit()
 
     def save(self):
         sql = """
@@ -26,6 +27,9 @@ class Song:
         """
 
         CURSOR.execute(sql, (self.name, self.album))
+        CONN.commit()
+
+        self.id = CURSOR.execute("SELECT last_insert_rowid() FROM songs").fetchone()[0]
 
     @classmethod
     def create(cls, name, album):
